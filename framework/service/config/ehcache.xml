@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ 	xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd">  
+ 	<diskStore path="java.io.tmpdir"/>
+	<defaultCache
+		maxElementsInMemory="10000" 
+		eternal="false" 
+		timeToIdleSeconds="30" 
+		timeToLiveSeconds="30" 
+		overflowToDisk="false"
+        memoryStoreEvictionPolicy="LFU" />
+        <!-- 在线用户 token缓存 -->
+      <cache 
+      	name="cache_sso_online_user_token"
+      	maxElementsInMemory="10000" 
+		eternal="false" 
+		timeToIdleSeconds="30" 
+		timeToLiveSeconds="30" 
+		overflowToDisk="false"
+        memoryStoreEvictionPolicy="LFU" />
+        <!-- 在线用户信息 以Name缓存 -->
+      <cache 
+      	name="cache_sso_online_user_name"
+      	maxElementsInMemory="10000" 
+		eternal="false" 
+		timeToIdleSeconds="30" 
+		timeToLiveSeconds="30" 
+		overflowToDisk="false"
+        memoryStoreEvictionPolicy="LFU" />
+      
+
+</ehcache>

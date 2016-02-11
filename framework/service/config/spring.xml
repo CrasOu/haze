@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans  
+		http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/cache
+     	http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+	<context:annotation-config />
+	<context:component-scan base-package="com.hs">
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+	<!-- 
+	<context:property-placeholder location="classpath:jdbc.properties" />
+	 -->
+	
+	<!-- 
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		<property name="url" value="${jdbc.url}" />
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+
+		<property name="initialSize" value="1" />
+		<property name="maxActive" value="20" />
+		<property name="minIdle" value="1" />
+		<property name="maxWait" value="60000" />
+
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+		<property name="validationQuery" value="${jdbc.validationsql}" />
+
+		<property name="poolPreparedStatements" value="true" />
+		<property name="maxPoolPreparedStatementPerConnectionSize"
+			value="50" />
+			 -->
+		<!-- <property name="filters" value="stat,wall,config" /> <property name="connectionProperties" 
+			value="config.decrypt=true" /> -->
+			<!-- 
+		<property name="filters" value="stat,wall" />
+	</bean>
+ -->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		<property name="url" value="jdbc:mysql://112.74.105.60:3306/tea_test" />
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="username" value="root" />
+		<property name="password" value="guojiang2015" />
+
+		<property name="initialSize" value="1" />
+		<property name="maxActive" value="20" />
+		<property name="minIdle" value="1" />
+		<property name="maxWait" value="60000" />
+
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+		<property name="validationQuery" value="SELECT 1" />
+
+		<property name="poolPreparedStatements" value="true" />
+		<property name="maxPoolPreparedStatementPerConnectionSize"
+			value="50" />
+		<!-- <property name="filters" value="stat,wall,config" /> <property name="connectionProperties" 
+			value="config.decrypt=true" /> -->
+		<property name="filters" value="stat,wall" />
+	</bean>
+	
+	<cache:annotation-driven/>
+	
+   <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager" p:cache-manager-ref="ehcacheManager"/>
+   <bean id="ehcacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"  p:config-location="classpath:ehcache.xml" p:shared="true"/>
+
+	<!-- 配置druid监控spring -->
+	<bean id="druid-stat-interceptor"
+		class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor" />
+
+	<bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut"
+		scope="prototype">
+		<property name="patterns">
+			<list>
+				<value>com.hs.*</value>
+			</list>
+		</property>
+	</bean>
+
+</beans>

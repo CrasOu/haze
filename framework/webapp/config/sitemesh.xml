@@ -1,0 +1,30 @@
+<sitemesh>
+<!-- http://blog.csdn.net/csuliky/article/details/4251317 -->
+	<page-parsers>
+		<parser default="true"
+			class="com.opensymphony.module.sitemesh.parser.DefaultPageParser" />
+		<parser content-type="text/html"
+			class="com.opensymphony.module.sitemesh.parser.HTMLPageParser" />
+		<parser content-type="text/html;charset=UTF-8"
+			class="com.opensymphony.module.sitemesh.parser.FastPageParser" />
+	</page-parsers>
+
+	<decorator-mappers>
+		<mapper class="com.opensymphony.module.sitemesh.mapper.PageDecoratorMapper">
+			<!-- 注意这一行指定<meta/>标签的 name 属性作为PageDecorator的识别符号 -->
+			<param name="property.1" value="decorator" />
+			<param name="property.2" value="meta.theme" />
+		</mapper>
+		
+		<mapper
+			class="com.opensymphony.module.sitemesh.mapper.FrameSetDecoratorMapper" />
+		<mapper
+			class="com.opensymphony.module.sitemesh.mapper.PrintableDecoratorMapper">
+			<param name="decorator" value="printable" />
+			<param name="parameter.name" value="printable" />
+			<param name="parameter.value" value="true" />
+		</mapper>
+		<mapper class="com.opensymphony.module.sitemesh.mapper.FileDecoratorMapper" />
+		<mapper class="org.haze.webapp.sitemesh.mapper.ConfigDecoratorMapper"/>
+	</decorator-mappers>
+</sitemesh>

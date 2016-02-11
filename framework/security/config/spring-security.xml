@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans  
+		http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/cache
+     	http://www.springframework.org/schema/cache/spring-cache.xsd">
+<!-- 
+  <authentication-manager>
+    <authentication-provider>
+      <user-service>
+        <user name="admin" password="1" authorities="ROLE_USER, ROLE_ADMIN" />
+        <user name="test" password="1" authorities="ROLE_USER" />
+      </user-service>
+    </authentication-provider>
+  </authentication-manager>
+	 -->
+ 
+ 
+	<bean id="ssoCacheService" class="org.haze.sso.cache.SsoCacheService" />
+	
+	<bean id="ssoClientConfig" class="org.haze.sso.client.SsoClientConfig">
+		<property name="loginUrl" value="http://127.0.0.1:8080/sso/login"></property>
+		<property name="verifyUrl" value="http://127.0.0.1:8080/sso/verify"></property>
+		<property name="logoutUrl" value="http://127.0.0.1:8080/sso/logout"></property>
+	</bean>
+</beans>

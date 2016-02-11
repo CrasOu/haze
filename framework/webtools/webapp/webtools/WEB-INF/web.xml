@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+	<display-name>spring4hibernate5</display-name>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/spring-security.xml</param-value>
+	</context-param>
+
+	<listener>
+		<listener-class>org.haze.webapp.SpringContextLoaderListener
+		</listener-class>
+	</listener>
+	<!-- 防止内存泄露 -->
+	<listener>
+		<listener-class>org.springframework.web.util.IntrospectorCleanupListener
+		</listener-class>
+	</listener>
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter
+		</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy
+		</filter-class>
+		<init-param>
+			<param-name>targetBeanName</param-name>
+			<param-value>ssoClientFilter</param-value>
+		</init-param>
+		<init-param>
+			<param-name>targetFilterLifecycle</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- sitemesh装饰过滤器 -->
+	<filter>
+		<filter-name>sitemesh</filter-name>
+		<filter-class>org.haze.webapp.sitemesh.SitemeshFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>sitemesh</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+		<!-- 2.4版本的servlet规范在部属描述符中新增加了一个<dispatcher>元素， 这个元素有四个可能的值：即REQUEST,FORWARD,INCLUDE和ERROR， 
+			可以在一个<filter-mapping>元素中加入任意数目的<dispatcher>， 使得filter将会作用于直接从客户端过来的request， 
+			通过forward过来的request，通过include过来的request和通过<error-page>过来的request。 如果没有指定任何< 
+			dispatcher >元素，默认值是REQUEST -->
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+
+	</filter-mapping>
+
+	<servlet>
+		<servlet-name>sitemesh-freemarker</servlet-name>
+		<servlet-class>org.haze.webapp.sitemesh.SitemeshFreemarkerDecoratorServlet
+		</servlet-class>
+		<init-param>
+			<param-name>default_encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+
+	<servlet-mapping>
+		<servlet-name>sitemesh-freemarker</servlet-name>
+		<url-pattern>*.ftl</url-pattern>
+	</servlet-mapping>
+	<!-- 静态资源交给容器处理 -->
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>/static/*</url-pattern>
+		<url-pattern>*.ico</url-pattern>
+		<url-pattern>*.html</url-pattern>
+		<url-pattern>*.txt</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>spring</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet
+		</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring-mvc.xml</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+	<!-- <filter> <filter-name>openSessionInViewFilter</filter-name> <filter-class>org.springframework.orm.hibernate5.support.OpenSessionInViewFilter</filter-class> 
+		<init-param> <param-name>singleSession</param-name> <param-value>true</param-value> 
+		</init-param> </filter> <filter-mapping> <filter-name>openSessionInViewFilter</filter-name> 
+		<url-pattern>/*</url-pattern> </filter-mapping> -->
+	<servlet>
+		<servlet-name>druidStatView</servlet-name>
+		<servlet-class>com.alibaba.druid.support.http.StatViewServlet
+		</servlet-class>
+		<init-param>
+			<param-name>resetEnable</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>loginUsername</param-name>
+			<param-value>druid</param-value>
+		</init-param>
+		<init-param>
+			<param-name>loginPassword</param-name>
+			<param-value>druid</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>druidStatView</servlet-name>
+		<url-pattern>/druid/*</url-pattern>
+	</servlet-mapping>
+	<filter>
+		<filter-name>DruidWebStatFilter</filter-name>
+		<filter-class>com.alibaba.druid.support.http.WebStatFilter
+		</filter-class>
+		<init-param>
+			<param-name>exclusions</param-name>
+			<param-value>*.txt,*.ico,/static/*,/druid/*</param-value>
+		</init-param>
+		<init-param>
+			<param-name>profileEnable</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>DruidWebStatFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+</web-app>

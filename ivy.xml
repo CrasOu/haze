@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one
+   or more contributor license agreements.  See the NOTICE file
+   distributed with this work for additional information
+   regarding copyright ownership.  The ASF licenses this file
+   to you under the Apache License, Version 2.0 (the
+   "License"); you may not use this file except in compliance
+   with the License.  You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing,
+   software distributed under the License is distributed on an
+   "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+   KIND, either express or implied.  See the License for the
+   specific language governing permissions and limitations
+   under the License.    
+-->
+
+<ivy-module version="2.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
+    <info organisation="org.apache" module="haze">
+        <description homepage="http://haze.hs.org/"/>
+    </info>
+    <configurations>
+        <conf name="cobertura" description="downloads cobertura 1.9.4.1 (GPL2.0) http://cobertura.sourceforge.net/"/>
+        <conf name="mysql" description="downloads the mysql JDBC driver"/>
+        <conf name="postgres" description="downloads the postgres JDBC driver"/>
+        <conf name="sonar-ant-task" description="downloads the ant sonar task (need sonar>=2.8)
+            http://docs.codehaus.org/display/SONAR/Analyse+with+Ant+Task"/>
+        <conf name="spring" description="downloads the spring driver"/>
+        <conf name="hibernate" description="downloads the hibernate"/>
+        <conf name="cache" description="downloads the cache"/>
+    </configurations>
+    <dependencies>
+        <dependency org="net.sourceforge.cobertura" name="cobertura" rev="1.9.4.1" conf="cobertura->default"/>
+        <dependency org="mysql" name="mysql-connector-java" rev="5.1.6" conf="mysql->default"/>
+        <dependency org="postgresql" name="postgresql" rev="9.0-801.jdbc4" conf="postgres->default"/>
+        <dependency org="org.codehaus.sonar-plugins" name="sonar-ant-task" rev="1.3" conf="sonar-ant-task->default"/>
+		<dependency org="com.google.code.gson" name="gson" rev="1.7.1" />
+		
+		<dependency org="org.springframework" name="spring-core" rev="4.2.3.RELEASE" conf="spring->default"/>
+		<dependency org="org.springframework" name="spring-context-support" rev="4.2.3.RELEASE" conf="spring->default"/>
+		<dependency org="org.springframework" name="spring-web" rev="4.2.3.RELEASE" conf="spring->default"/>
+		<dependency org="org.springframework" name="spring-tx" rev="4.2.3.RELEASE" conf="spring->default"/>
+		<dependency org="org.springframework" name="spring-orm" rev="4.2.3.RELEASE" conf="spring->default"/>
+		<dependency org="org.springframework.webflow" name="spring-webflow" rev="2.4.2.RELEASE" conf="spring->default"/>
+		<dependency org="org.springframework" name="spring-webmvc" rev="4.2.3.RELEASE" conf="spring->default"/>
+		<dependency org="org.springframework" name="spring-orm" rev="4.2.3.RELEASE" conf="spring->default"/>
+		<dependency org="org.springframework.data" name="spring-data-jpa" rev="1.4.5.RELEASE" conf="spring->default"/>
+		<dependency org="org.aspectj" name="aspectjrt" rev="1.8.6" conf="spring->default"/>
+		<dependency org="org.aspectj" name="aspectjweaver" rev="1.8.6" conf="spring->default"/>
+		<dependency org="org.hibernate" name="hibernate-core" rev="5.0.4.Final" conf="hibernate->default"/>
+		<dependency org="org.hibernate" name="hibernate-entitymanager" rev="5.0.4.Final" conf="hibernate->default"/>
+		<dependency org="org.hibernate" name="hibernate-validator" rev="5.0.3.Final" conf="hibernate->default"/>
+		<dependency org="com.alibaba" name="fastjson" rev="1.2.6" conf="hibernate->default"/>
+		<dependency org="com.alibaba" name="druid" rev="1.0.15" conf="hibernate->default"/>
+		<dependency org="net.sf.ehcache" name="ehcache" rev="2.10.1" conf="cache"/>
+        <!--Exclusions for cobertura-->
+        <exclude module="oro" conf="cobertura"/>
+        <exclude module="asm" conf="cobertura"/>
+        <exclude module="asm-tree" conf="cobertura"/>
+        <exclude module="log4j" conf="cobertura"/>
+        <exclude module="ant" conf="cobertura"/>
+    </dependencies>
+
+</ivy-module>

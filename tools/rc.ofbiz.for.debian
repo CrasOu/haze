@@ -1,0 +1,159 @@
+#!/bin/bash
+#####################################################################
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+#####################################################################
+#
+# haze        This shell script takes care of starting and stopping
+#              the Haze subsystem. This version is for Debian systems
+#
+# chkconfig: - 80 10
+# description: Haze server
+### BEGIN INIT INFO
+# Provides:          Haze ERP software
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Apache-Haze
+# Description:       Haze ERP Software
+### END INIT INFO
+
+# Paths - Edit for your locations
+JAVA_BINARY=/usr/java/j2sdk1.4.2/bin/java
+HAZE_HOME=/home/haze/haze
+HAZE_LOG=$HAZE_HOME/runtime/logs/console.log
+
+# VM Options
+JAVA_VMOPTIONS="-Xms128M -Xmx512M -XX:MaxPermSize=512m"
+
+# Java arguments
+JAVA_ARGS="-jar haze.jar"
+
+# *nix user haze should run as (you must create this user first)
+HAZE_USER=haze
+
+# Haze processes running
+ofbizprocs() {
+    HAZE_PROCS=`/bin/ps h -o pid,args -C java | /bin/grep -e "$JAVA_ARGS" | /bin/egrep -o "^[[:space:]]*[[:digit:]]*"`
+}
+
+# Checking user...
+checkuser() {
+    if [ "$USER" != "$HAZE_USER" ]; then
+        echo failure
+        echo
+        echo "Only users root or $HAZE_USER should start/stop the application"
+        exit 1
+    fi
+}
+
+# Start Haze
+start() {
+    echo -n "Starting Haze: "
+    checkuser
+    ofbizprocs
+    if [ "$HAZE_PROCS" != "" ]; then
+        echo failure
+        echo
+        echo "Haze is already running..."
+        return 1
+    fi
+
+    # All clear
+    cd $HAZE_HOME
+    umask 007
+    /bin/rm -f $HAZE_LOG
+    $JAVA_BINARY $JAVA_VMOPTIONS $JAVA_ARGS >>$HAZE_LOG 2>>$HAZE_LOG&
+    echo success
+    return 0
+}
+
+# Stop Haze
+stop() {
+    echo -n "Stopping Haze: "
+    checkuser
+    ofbizprocs
+    if [ "$HAZE_PROCS" == "" ]; then
+        echo failure
+        echo
+        echo "Haze is not running..."
+        return 1
+    fi
+
+    # All clear
+    cd $HAZE_HOME
+    umask 007
+    $JAVA_BINARY $JAVA_VMOPTIONS $JAVA_ARGS -shutdown >>$HAZE_LOG
+    ofbizprocs
+    if [ "$HAZE_PROCS" != "" ]; then
+        # Let's try to -TERM
+        /bin/kill -TERM $HAZE_PROCS
+    fi
+    ofbizprocs
+    if [ "$HAZE_PROCS" != "" ]; then
+        # Let's try it the hard way!
+        /bin/kill -9 $HAZE_PROCS
+    fi
+    ofbizprocs
+    if [ "$HAZE_PROCS" != "" ]; then
+        echo failure
+        echo
+        echo "Some processes could not be stopped:"
+        echo $HAZE_PROCS
+        echo "A possible solution is to try this command once more!"
+        return 1
+    else
+        echo success
+        return 0
+    fi
+}
+
+# If root is running this script, su to $HAZE_USER first
+if [ "$USER" = "root" ]; then
+    exec su - $HAZE_USER -c "$0 $1"
+fi
+
+case "$1" in
+    'start')
+        start
+    ;;
+    'stop')
+        stop
+    ;;
+    'restart')
+        stop
+        start
+    ;;
+    'status')
+        ofbizprocs
+        if [ "$HAZE_PROCS" == "" ]; then
+            echo "Haze is stopped"
+            exit 1
+        else
+            echo "Haze is running"
+            exit 0
+        fi
+    ;;
+    *)
+        echo "Usage: $0 {start|stop|kill|restart|status|help}"
+        exit 1
+    ;;
+esac
+echo
+exit $?
+
