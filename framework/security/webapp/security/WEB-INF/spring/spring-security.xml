@@ -1,13 +1,22 @@
-<beans:beans xmlns="http://www.springframework.org/schema/security"
+<beans:beans 
+	xmlns="http://www.springframework.org/schema/security"
 	xmlns:beans="http://www.springframework.org/schema/beans" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-	http://www.springframework.org/schema/security
-	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:cache="http://www.springframework.org/schema/cache" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans  
+		http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/cache
+     	http://www.springframework.org/schema/cache/spring-cache.xsd
+		http://www.springframework.org/schema/security
+		http://www.springframework.org/schema/security/spring-security.xsd">
 
 	<http auto-config="true" use-expressions="true">
-		<!-- <custom-filter position="FORM_LOGIN_FILTER" ref="customUsernamePasswordAuthenticationFilter" 
+		<!-- <custom-filter position="FORM_LOGIN_FILTER" ref="hazeUsernamePasswordAuthenticationFilter" 
 			/> -->
 		<intercept-url pattern="/welcome**" access="isAuthenticated()" />
 		<intercept-url pattern="/admin**" access="hasRole('ADMIN')" />
@@ -15,16 +24,16 @@
 		<access-denied-handler error-page="/403" />
 		<form-login login-page="/login" default-target-url="/welcome"
 			authentication-failure-url="/login?error" username-parameter="username"
-			password-parameter="password" authentication-success-handler-ref="customAuthenticationSuccessHandler" />
+			password-parameter="password" authentication-success-handler-ref="hazeAuthenticationSuccessHandler" />
 		<logout logout-url="/logout" invalidate-session="true"
-			success-handler-ref="customLogoutSuccessHandler" />
+			success-handler-ref="hazeLogoutSuccessHandler" />
 		<!-- <csrf /> -->
 	</http>
 
-	<!-- <beans:bean id="customUsernamePasswordAuthenticationFilter" class="org.haze.sso.filter.CustomUsernamePasswordAuthenticationFilter"> 
-		</beans:bean> -->
+	<!-- <bean id="hazeUsernamePasswordAuthenticationFilter" class="org.haze.sso.filter.hazeUsernamePasswordAuthenticationFilter"> 
+		</bean> -->
 
-	<beans:bean id="customAuthenticationSuccessHandler"
+	<beans:bean id="hazeAuthenticationSuccessHandler"
 		class="org.haze.sso.server.handler.HazeAuthenticationSuccessHandler">
 		<beans:property name="ssoCacheService" ref="ssoCacheService" />
 		<beans:property name="ssoServerConfig" ref="ssoServerConfig" />
@@ -35,7 +44,7 @@
 			value="8" />
 	</beans:bean>
 
-	<beans:bean id="customLogoutSuccessHandler"
+	<beans:bean id="hazeLogoutSuccessHandler"
 		class="org.haze.sso.server.handler.HazeLogoutSuccessHandler">
 		<beans:property name="ssoCacheService" ref="ssoCacheService" />
 	</beans:bean>
@@ -48,7 +57,7 @@
 	<beans:bean id="authenticationProvider"
 		class="org.haze.sso.server.HazeLoginAuthenticationProvider">
 		<beans:property name="passwordEncoder" ref="encoder" />
-		<beans:property name="userDetailsService" ref="customUserDetailsService" />
+		<beans:property name="userDetailsService" ref="hazeUserDetailsService" />
 		<beans:property name="userDetailsDao" ref="userDetailsDao" />
 	</beans:bean>
 
@@ -57,7 +66,7 @@
 		<beans:constructor-arg name="strength" value="10" />
 	</beans:bean>
 	
-	<beans:bean id="customUserDetailsService" class="org.haze.sso.server.HazeUserDetailsService">
+	<beans:bean id="hazeUserDetailsService" class="org.haze.sso.server.HazeUserDetailsService">
 		<beans:property name="usersByUsernameQuery"
 			value="SELECT d_username username,d_password password, d_enabled enabled,1 accountnonexpired,1 accountnonlocked,1 credentialsnonexpired FROM t_users WHERE d_username=?" />
 		<beans:property name="authoritiesByUsernameQuery"

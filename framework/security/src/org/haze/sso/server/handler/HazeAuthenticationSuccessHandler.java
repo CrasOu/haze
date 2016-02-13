@@ -53,7 +53,7 @@ public class HazeAuthenticationSuccessHandler implements
 		log.debug("sso cache => " + ssoCacheService.getByToken(key));
 
 		// 03.在sso所属的域中，生成cookie(以便其它同域的子应用，能实现自动登录)
-		UtilCookie.writeCookie(response, SsoConsts.TOKEN_NAME, key);
+		UtilCookie.writeCookie(response, SsoConsts.TOKEN_COOKIES_NAME, key);
 
 		String returnUrl = request.getParameter("returnUrl");
 		log.debug("returnUrl:" + returnUrl);

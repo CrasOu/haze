@@ -7,6 +7,7 @@ import java.util.UUID;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
+import org.haze.base.lang.ResponseResult;
 import org.haze.base.util.UtilDateTime;
 import org.haze.sso.SsoConsts;
 import org.haze.sso.cache.SsoCacheItem;
@@ -99,38 +100,5 @@ public class LoginController {
 		}
 
 		return error;
-	}
-
-	@RequestMapping(value = "/verify", method = RequestMethod.GET)
-	@ResponseBody
-	public String verify(
-			@RequestParam(value = SsoConsts.TOKEN_NAME, required = true) String _token,
-			HttpServletRequest request) throws IOException, ServletException {
-		SsoCacheItem cacheItem = ssoCacheService.getByToken(_token);
-		if (cacheItem != null) {
-			if (cacheItem instanceof SsoCacheItem) {
-				SsoCacheItem ssoCacheItem = (SsoCacheItem) cacheItem;
-				if ((new Date()).after(ssoCacheItem.getExpiredDate())) {
-					// _token已过期，删除过期Cache
-					ssoCacheService.delete(cacheItem);
-				} else {
-					ssoCacheService.delete(cacheItem);
-					// 动态更换新token，提高安全性
-					ssoCacheItem.setKey(UUID.randomUUID().toString());
-					ssoCacheItem.setExpiredDate(UtilDateTime.addHours(new Date(),
-							ssoServerConfig.getCacheCredentialExpireHours()));
-					ssoCacheService.put(ssoCacheItem);
-					Authentication auth = SecurityContextHolder.getContext()
-							.getAuthentication();
-					System.out.println("username:" + auth.getName());
-					return "1," + ssoCacheItem.getValue() + ","
-							+ ssoCacheItem.getKey();
-				}
-			} else {
-				ssoCacheService.delete(cacheItem);
-			}
-		}
-		return "0,null,null";
-
 	}
 }

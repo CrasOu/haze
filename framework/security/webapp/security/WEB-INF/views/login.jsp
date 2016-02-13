@@ -17,7 +17,6 @@
 </script>
 </head>
 <body onload='document.loginForm.username.focus();'>
-${ctx}-->
 	<div id="login-box">
 
 		<h3 style="text-align: center">单点登录</h3>
@@ -30,7 +29,7 @@ ${ctx}-->
 		</c:if>
 
 		<form name='loginForm'
-			action="<c:url value='/j_spring_security_check?returnUrl=${pageContext.request.getParameter("returnUrl")}' />" method='POST'
+			action="<c:url value='/login?returnUrl=${pageContext.request.getParameter("service")}' />" method='POST'
 			onsubmit="return doSubmit()">
 
 			<table width="100%" cellpadding="3">

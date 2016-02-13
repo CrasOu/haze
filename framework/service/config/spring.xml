@@ -17,11 +17,9 @@
 		<context:exclude-filter type="annotation"
 			expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
-	<!-- 
-	<context:property-placeholder location="classpath:jdbc.properties" />
-	 -->
 	
-	<!-- 
+	<context:property-placeholder location="classpath:jdbc.properties" />
+	
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
 		init-method="init" destroy-method="close">
 		<property name="url" value="${jdbc.url}" />
@@ -45,13 +43,11 @@
 		<property name="poolPreparedStatements" value="true" />
 		<property name="maxPoolPreparedStatementPerConnectionSize"
 			value="50" />
-			 -->
 		<!-- <property name="filters" value="stat,wall,config" /> <property name="connectionProperties" 
 			value="config.decrypt=true" /> -->
-			<!-- 
 		<property name="filters" value="stat,wall" />
 	</bean>
- -->
+ 	<!-- 
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
 		init-method="init" destroy-method="close">
 		<property name="url" value="jdbc:mysql://112.74.105.60:3306/tea_test" />
@@ -75,10 +71,9 @@
 		<property name="poolPreparedStatements" value="true" />
 		<property name="maxPoolPreparedStatementPerConnectionSize"
 			value="50" />
-		<!-- <property name="filters" value="stat,wall,config" /> <property name="connectionProperties" 
-			value="config.decrypt=true" /> -->
 		<property name="filters" value="stat,wall" />
 	</bean>
+	 -->
 	
 	<cache:annotation-driven/>
 	

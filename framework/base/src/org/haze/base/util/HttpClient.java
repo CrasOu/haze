@@ -247,6 +247,10 @@ public class HttpClient {
         this.basicAuthUsername = basicAuthUsername;
         this.basicAuthPassword = basicAuthPassword;
     }
+    /** Invoke HTTP request GET. */
+    public String get(String encoding ) throws HttpClientException {
+        return sendHttpRequest("get",encoding);
+    }
 
     /** Invoke HTTP request GET. */
     public String get() throws HttpClientException {
@@ -345,7 +349,12 @@ public class HttpClient {
         }
     }
 
+
     public String sendHttpRequest(String method) throws HttpClientException {
+    	return sendHttpRequest(method,null);
+    }
+
+    public String sendHttpRequest(String method,String charset) throws HttpClientException {
         InputStream in = sendHttpRequestStream(method);
         if (in == null) return null;
 
@@ -360,7 +369,6 @@ public class HttpClient {
                 }
             }
 
-            String charset = null;
             String contentType = con.getContentType();
             if (contentType == null) {
                 try {
@@ -520,6 +528,16 @@ public class HttpClient {
     public static String getUrlContent(String url) throws HttpClientException {
         HttpClient client = new HttpClient(url);
         return client.get();
+    }
+
+    public static String getUrlContent(URL url,String encoding) throws HttpClientException {
+        HttpClient client = new HttpClient(url);
+        return client.get(encoding);
+    }
+
+    public static String getUrlContent(String url,String encoding) throws HttpClientException {
+        HttpClient client = new HttpClient(url);
+        return client.get(encoding);
     }
 
     public static int checkHttpRequest(String url) throws HttpClientException {

@@ -122,11 +122,6 @@
 	<classpathentry kind="lib" path="framework/webapp/lib/sitemesh/sitemesh-2.4.2.jar"/>
 	<classpathentry kind="lib" path="framework/base/lib/cache/ehcache-2.10.1.jar"/>
 	<classpathentry kind="lib" path="framework/base/lib/quartz-2.2.2.jar"/>
-	<classpathentry kind="lib" path="framework/security/lib/spring-security-acl-3.2.3.RELEASE.jar"/>
-	<classpathentry kind="lib" path="framework/security/lib/spring-security-config-3.2.3.RELEASE.jar"/>
-	<classpathentry kind="lib" path="framework/security/lib/spring-security-core-3.2.3.RELEASE.jar"/>
-	<classpathentry kind="lib" path="framework/security/lib/spring-security-taglibs-3.2.3.RELEASE.jar"/>
-	<classpathentry kind="lib" path="framework/security/lib/spring-security-web-3.2.3.RELEASE.jar"/>
 	<classpathentry kind="lib" path="framework/base/lib/hibernate/antlr-2.7.7.jar"/>
 	<classpathentry kind="lib" path="framework/base/lib/hibernate/classmate-1.0.0.jar"/>
 	<classpathentry kind="lib" path="framework/base/lib/hibernate/dom4j-1.6.1.jar"/>
@@ -145,9 +140,6 @@
 	<classpathentry kind="lib" path="framework/base/lib/spring/aopalliance-1.0.jar"/>
 	<classpathentry kind="lib" path="framework/base/lib/spring/aspectjrt-1.8.6.jar"/>
 	<classpathentry kind="lib" path="framework/base/lib/spring/aspectjweaver-1.8.6.jar"/>
-	<classpathentry kind="lib" path="framework/base/lib/spring/gson-1.7.1-javadoc.jar"/>
-	<classpathentry kind="lib" path="framework/base/lib/spring/gson-1.7.1-sources.jar"/>
-	<classpathentry kind="lib" path="framework/base/lib/spring/gson-1.7.1.jar"/>
 	<classpathentry kind="lib" path="framework/base/lib/spring/jcl-over-slf4j-1.7.1.jar"/>
 	<classpathentry kind="lib" path="framework/base/lib/spring/slf4j-api-1.7.1.jar"/>
 	<classpathentry kind="lib" path="framework/base/lib/spring/spring-aop-4.2.3.RELEASE.jar"/>
@@ -163,5 +155,12 @@
 	<classpathentry kind="lib" path="framework/base/lib/spring/spring-tx-4.2.3.RELEASE.jar"/>
 	<classpathentry kind="lib" path="framework/base/lib/spring/spring-web-4.2.3.RELEASE.jar"/>
 	<classpathentry kind="lib" path="framework/base/lib/spring/spring-webmvc-4.2.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="framework/security/lib/spring-security-acl-4.0.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="framework/security/lib/spring-security-config-4.0.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="framework/security/lib/spring-security-core-4.0.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="framework/security/lib/spring-security-taglibs-4.0.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="framework/security/lib/spring-security-web-4.0.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="framework/base/lib/jackson-core-asl-1.9.13.jar"/>
+	<classpathentry kind="lib" path="framework/base/lib/jackson-mapper-asl-1.9.13.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

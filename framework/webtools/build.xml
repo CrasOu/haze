@@ -36,9 +36,10 @@ under the License.
         <fileset dir="../base/lib" includes="*.jar"/>
         <fileset dir="../base/lib/commons" includes="*.jar"/>
         <fileset dir="../base/lib/j2eespecs" includes="*.jar"/>
+        <fileset dir="../base/lib/spring" includes="*.jar"/>
+        <fileset dir="../base/lib/hibernate" includes="*.jar"/>
         <fileset dir="../base/build/lib" includes="*.jar"/>
         <fileset dir="../service/lib" includes="*.jar"/>
-        <fileset dir="../service/lib/hibernate" includes="*.jar"/>
     	<!--
         <fileset dir="../entity/lib" includes="*.jar"/>
         <fileset dir="../entity/build/lib" includes="*.jar"/>

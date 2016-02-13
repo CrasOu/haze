@@ -22,12 +22,5 @@
   </authentication-manager>
 	 -->
  
- 
 	<bean id="ssoCacheService" class="org.haze.sso.cache.SsoCacheService" />
-	
-	<bean id="ssoClientConfig" class="org.haze.sso.client.SsoClientConfig">
-		<property name="loginUrl" value="http://127.0.0.1:8080/sso/login"></property>
-		<property name="verifyUrl" value="http://127.0.0.1:8080/sso/verify"></property>
-		<property name="logoutUrl" value="http://127.0.0.1:8080/sso/logout"></property>
-	</bean>
 </beans>

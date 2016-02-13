@@ -14,13 +14,83 @@
 		http://www.springframework.org/schema/cache
      	http://www.springframework.org/schema/cache/spring-cache.xsd
 		http://www.springframework.org/schema/security
-		http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+		http://www.springframework.org/schema/security/spring-security.xsd">
 	<!-- <http auto-config='true'> <intercept-url pattern="/**" access="ROLE_USER" 
 		/> <http-basic /> </http> -->
 
-
+	<!-- 
 	<beans:bean id="ssoClientFilter" class="org.haze.sso.client.SsoClientFilter">
 		<beans:property name="ssoConfig" ref="ssoClientConfig"></beans:property>
 	</beans:bean>
+	 -->
+	
+	<!--SSO --> 
+    <http auto-config="false" entry-point-ref="ssoEntryPoint" servlet-api-provision="true">    
+        <intercept-url pattern="/**" access="isAuthenticated()" /> 
+        <!-- logout-success-url="/login.html" -->    
+<!--        <logout logout-url="/login.do" success-handler-ref="casLogoutSuccessHandler"/>   --> 
+	<!-- 
+        <custom-filter ref="requestSingleLogoutFilter" before="LOGOUT_FILTER" />   
+         -->
+         <custom-filter ref="ssoAuthenticationFilter" position="CAS_FILTER"/> 
+         <!-- 
+        <custom-filter position="FORM_LOGIN_FILTER" ref="ssoFilter"/>    
+         -->
+        <!-- 
+        <custom-filter ref="singleLogoutFilter" before="CAS_FILTER" /> 
+         -->
+    </http>   
+ 
+    <beans:bean id="ssoEntryPoint"  class="org.haze.sso.client.web.CasAuthenticationEntryPoint">    
+        <beans:property name="loginUrl" value="http://127.0.0.1:8080/sso/login"/>    
+        <beans:property name="serviceProperties" ref="serviceProperties"/>    
+    </beans:bean> 
+    
+    <beans:bean id="serviceProperties"  class="org.haze.sso.client.ServiceProperties">
+        <beans:property name="service"  value="http://127.0.0.1:8080/webtools/login/cas"/>    
+        <beans:property name="sendRenew" value="false"/>
+    </beans:bean> 
+ 
+    <beans:bean id="ssoAuthenticationFilter"  class="org.haze.sso.client.web.CasAuthenticationFilter">    
+        <beans:property name="authenticationManager" ref="authenticationManager"/>    
+    </beans:bean>    
+        
+    <authentication-manager alias="authenticationManager">    
+        <authentication-provider ref="ssoAuthenticationProvider"/>   
+    </authentication-manager>    
+        
+	
+	<beans:bean id="hazeUserDetailsService" class="org.haze.sso.server.HazeUserDetailsService">
+		<beans:property name="usersByUsernameQuery"
+			value="SELECT d_username username,d_password password, d_enabled enabled,1 accountnonexpired,1 accountnonlocked,1 credentialsnonexpired FROM t_users WHERE d_username=?" />
+		<beans:property name="authoritiesByUsernameQuery"
+			value="SELECT d_username username, d_role role FROM t_user_roles WHERE d_username=?" />
+		<beans:property name="dataSource" ref="dataSource" />
+	</beans:bean>
+       
+    <beans:bean id="ssoAuthenticationProvider"    
+            class="org.haze.sso.client.authentication.CasAuthenticationProvider">    
+        <beans:property name="userDetailsService" ref="hazeUserDetailsService"/>    
+        <beans:property name="serviceProperties" ref="serviceProperties" />    
+        <beans:property name="ticketValidator">    
+            <beans:bean class="org.haze.sso.client.validation.Cas20ServiceTicketValidator">    
+                <beans:constructor-arg  index="0" value="http://127.0.0.1:8080/sso/server/" />    
+            </beans:bean>    
+        </beans:property>    
+        <beans:property name="key" value="haze.visitor.token"/>
+    </beans:bean>    
+ 
+    <!-- 注销客户端
+    <beans:bean id="singleLogoutFilter" class="org.jasig.cas.client.session.SingleSignOutFilter" /> 
+  --> 
+    <!-- 注销服务器端 
+    <beans:bean id="requestSingleLogoutFilter"   class="org.springframework.security.web.authentication.logout.LogoutFilter"> 
+	    <beans:constructor-arg  value="http://172.19.50.21:9083/HASLSSO/logout" /> 
+	    <beans:constructor-arg> 
+	    	<beans:bean  class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/> 
+	    </beans:constructor-arg> 
+	    <beans:property name="filterProcessesUrl" value="/j_spring_cas_security_logout" /> 
+    </beans:bean> 
+	--> 
 
 </beans:beans>

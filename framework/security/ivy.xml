@@ -28,10 +28,10 @@
         <conf name="security" description="downloads the spring security jar"/>
     </configurations>
     <dependencies>
-        <dependency org="org.springframework.security" name="spring-security-core" rev="3.2.3.RELEASE" conf="security->default"/>
-        <dependency org="org.springframework.security" name="spring-security-web" rev="3.2.3.RELEASE" conf="security->default"/>
-        <dependency org="org.springframework.security" name="spring-security-config" rev="3.2.3.RELEASE" conf="security->default"/>
-    	<dependency org="org.springframework.security" name="spring-security-taglibs" rev="3.2.3.RELEASE" conf="security->default"/>
+        <dependency org="org.springframework.security" name="spring-security-core" rev="4.0.3.RELEASE" conf="security->default"/>
+        <dependency org="org.springframework.security" name="spring-security-web" rev="4.0.3.RELEASE" conf="security->default"/>
+        <dependency org="org.springframework.security" name="spring-security-config" rev="4.0.3.RELEASE" conf="security->default"/>
+    	<dependency org="org.springframework.security" name="spring-security-taglibs" rev="4.0.3.RELEASE" conf="security->default"/>
    </dependencies>
 
 </ivy-module>

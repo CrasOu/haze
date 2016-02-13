@@ -35,6 +35,7 @@ under the License.
         <fileset dir="${lib.dir}" includes="*.jar"/>
         <fileset dir="../base/lib" includes="*.jar"/>
         <fileset dir="../base/lib/spring" includes="*.jar"/>
+        <fileset dir="../base/lib/cache" includes="*.jar"/>
         <fileset dir="../base/lib/j2eespecs" includes="*.jar"/>
         <fileset dir="../base/build/lib" includes="*.jar"/>
     	<!--
