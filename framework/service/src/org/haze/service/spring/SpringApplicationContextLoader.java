@@ -1,19 +1,3 @@
-/*
- * Copyright 2002-2015 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package org.haze.service.spring;
 
 import java.util.ArrayList;
@@ -43,49 +27,6 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
-/**
- * Performs the actual initialization work for the root application context.
- * Called by {@link SpringContextLoaderListener}.
- *
- * <p>Looks for a {@link #CONTEXT_CLASS_PARAM "contextClass"} parameter
- * at the {@code web.xml} context-param level to specify the context
- * class type, falling back to the default of
- * {@link org.springframework.web.context.support.XmlWebApplicationContext}
- * if not found. With the default ContextLoader implementation, any context class
- * specified needs to implement the ConfigurableWebApplicationContext interface.
- *
- * <p>Processes a {@link #CONFIG_LOCATION_PARAM "contextConfigLocation"}
- * context-param and passes its value to the context instance, parsing it into
- * potentially multiple file paths which can be separated by any number of
- * commas and spaces, e.g. "WEB-INF/applicationContext1.xml,
- * WEB-INF/applicationContext2.xml". Ant-style path patterns are supported as well,
- * e.g. "WEB-INF/*Context.xml,WEB-INF/spring*.xml" or "WEB-INF/&#42;&#42;/*Context.xml".
- * If not explicitly specified, the context implementation is supposed to use a
- * default location (with XmlWebApplicationContext: "/WEB-INF/applicationContext.xml").
- *
- * <p>Note: In case of multiple config locations, later bean definitions will
- * override ones defined in previously loaded files, at least when using one of
- * Spring's default ApplicationContext implementations. This can be leveraged
- * to deliberately override certain bean definitions via an extra XML file.
- *
- * <p>Above and beyond loading the root application context, this class
- * can optionally load or obtain and hook up a shared parent context to
- * the root application context. See the
- * {@link #loadParentContext(SpringApplicationContext)} method for more information.
- *
- * <p>As of Spring 3.1, {@code ContextLoader} supports injecting the root web
- * application context via the {@link #ContextLoader(WebApplicationContext)}
- * constructor, allowing for programmatic configuration in Servlet 3.0+ environments.
- * See {@link org.springframework.web.WebApplicationInitializer} for usage examples.
- *
- * @author Juergen Hoeller
- * @author Colin Sampaleanu
- * @author Sam Brannen
- * @since 17.02.2003
- * @see SpringContextLoaderListener
- * @see ConfigurableWebApplicationContext
- * @see org.springframework.web.context.support.XmlWebApplicationContext
- */
 public class SpringApplicationContextLoader {
 	public static final Logger LOG = LoggerFactory.getLogger(SpringApplicationContextLoader.class);
 	/**

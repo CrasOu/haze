@@ -9,7 +9,7 @@ import org.springframework.web.context.ContextLoaderListener;
 /**
  * 使用SpringContextLoaderListener不能再使用ContextLoaderListener 在web.xml里配locatorFactorySelector 及 parentContextKey
  * 的方式加父容器了
- * @author xueyingou
+ * @author cras
  *
  */
 public class SpringContextLoaderListener extends ContextLoaderListener {
